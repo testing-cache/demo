@@ -1,20 +1,10 @@
-name: Depot Build Test
-
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   build:
-    runs-on: depot-ubuntu-22.04-16x
+    runs-on: depot-ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Log in to Depot
-        run: echo "${{ secrets.DEPOT_TOKEN }}" | depot login --token-stdin
-
-      - name: Build and Push Docker Image
-        run: |
-          depot build -t my-sample-image:latest .
+      - uses: actions/checkout@v3
+      - name: Build and push Docker image
+        uses: depot/build-push-action@v1
+        with:
+          push: true
+          tags: user/app:latest
